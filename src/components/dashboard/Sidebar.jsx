@@ -1,4 +1,4 @@
-import React from 'react';
+import logoImg from '../../assets/logo.png';
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const navItems = [
@@ -23,11 +23,8 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       {/* Sidebar */}
       <nav className={`fixed inset-y-0 left-0 z-50 w-64 bg-bureau-bg border-r border-bureau-navy transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col py-6`}>
         <div className="px-6 mb-8 flex items-center justify-between border-b border-bureau-navy pb-6">
-          <a href="#" className="block w-full">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 border-2 border-bureau-navy flex items-center justify-center font-bold text-lg bg-bureau-navy text-bureau-bg font-headline-md">G</div>
-              <span className="font-headline-md font-bold text-xl tracking-tight">CRIMEGPT</span>
-            </div>
+          <a href="#" className="block">
+            <img src={logoImg} alt="CrimeGPT Logo" className="h-8 w-auto object-contain" />
           </a>
           <button className="lg:hidden text-bureau-navy p-1" onClick={() => setIsOpen(false)}>
             <span className="material-symbols-outlined">close</span>

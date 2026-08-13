@@ -24,19 +24,19 @@ const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="bg-bureau-bg text-bureau-navy h-screen flex overflow-hidden font-body-md">
+    <div className="bg-bureau-bg text-bureau-navy min-h-screen font-body-md">
       {/* Sidebar Navigation */}
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
-      {/* Main Content Area */}
-      <main className="lg:ml-64 flex-1 flex flex-col h-screen overflow-hidden bg-bureau-bg">
+      {/* Main Content Area — offset by sidebar width on lg+ */}
+      <div className="lg:ml-64 flex flex-col min-h-screen">
         {/* Top Navigation Bar */}
         <Header setIsSidebarOpen={setIsSidebarOpen} />
 
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto p-gutter space-y-gutter">
+        <main className="flex-1 overflow-x-hidden p-4 md:p-gutter space-y-4 md:space-y-gutter">
           {/* Row 1: Stat Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-md">
             {statCards.map((card) => (
               <StatCard
                 key={card.title}
@@ -49,18 +49,18 @@ const DashboardLayout = () => {
           </div>
 
           {/* Row 2: Recent Cases Table + AI Drafts Panel */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-gutter">
             <RecentCasesTable />
             <AIDraftsPanel />
           </div>
 
           {/* Row 3: Crime Categories Chart + Activity Timeline */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-gutter pb-gutter">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-gutter pb-4 md:pb-gutter">
             <CrimeCategoriesChart />
             <ActivityTimeline />
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
