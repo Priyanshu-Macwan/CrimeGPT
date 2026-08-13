@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './LoginPage.css';
+import logoImg from '../assets/logo.png';
 
 /**
  * LoginPage Component
@@ -32,13 +33,13 @@ const FEATURES = [
 ];
 
 /* ── External image URLs (from the original HTML) ── */
-const LOGO_URL = '/logo.png';
+const LOGO_URL = logoImg;
 
 const WATERMARK_URL =
   'https://lh3.googleusercontent.com/aida/AP1WRLtvs9CtcLKMW92wt9j9omfLiNAFyaSdN7dBqPckWMN_B6kWTgbC8PV6jow7P3BWTjJv7P2iHxrwHZXqdaVUQWl6Udu6tNvMOOoKHQLg9OGCJdkKWP2eBxhKIDE8EuK6sOQt5VWRtljxAjn4N1z7H3JZ0ZnkgQadrgJvvYYlCaBELNatsk4EWvqBxrXtfq7xduukveKCdzyUkockUN-CIQWkg9DK43wv0iSJSokYVRDGxNjHS4bqdQUnAdtV';
 
 
-export default function LoginPage() {
+export default function LoginPage({ onLogin }) {
   /* ── Form State ── */
   const [officerId, setOfficerId] = useState('');
   const [password, setPassword] = useState('');
@@ -78,8 +79,8 @@ export default function LoginPage() {
     setErrors(errs);
 
     if (Object.keys(errs).length === 0) {
-      // No backend — log the attempt
-      console.log('Login submitted:', { officerId, rememberMe });
+      // Successful validation — transition to dashboard
+      if (onLogin) onLogin();
     }
   };
 
