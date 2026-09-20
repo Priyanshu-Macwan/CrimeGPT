@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ShieldStar,
   Fingerprint,
@@ -15,13 +16,14 @@ import {
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     setIsAuthenticating(true);
     setTimeout(() => {
       setIsAuthenticating(false);
-      alert('Authentication system ready for integration.');
+      navigate('/dashboard');
     }, 1000);
   };
 
