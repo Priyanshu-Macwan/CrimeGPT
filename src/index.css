@@ -68,7 +68,7 @@ body {
     align-items: center;
     gap: 0.5rem;
 }
-.logo i {
+.logo svg {
     font-size: 1.5rem;
     color: var(--color-accent);
 }
@@ -113,7 +113,7 @@ body {
     color: var(--color-text-light);
 }
 
-.feature-list i {
+.feature-list svg {
     font-size: 1.5rem;
     color: var(--color-cream);
 }
@@ -290,7 +290,7 @@ body {
     border-left: 4px solid var(--color-navy);
 }
 
-.security-warning i {
+.security-warning svg {
     font-size: 1.25rem;
     color: var(--color-navy);
     margin-top: 0.1rem;
