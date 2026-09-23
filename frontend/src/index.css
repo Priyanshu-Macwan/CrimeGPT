@@ -1,0 +1,330 @@
+/* Base Reset & Variables */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-navy: #0F172A;
+    --color-navy-light: #1E293B;
+    --color-cream: #F8F5EE;
+    --color-cream-dark: #E2DFD8;
+    --color-accent: #38BDF8;
+    --color-text-light: #94A3B8;
+    --color-text-dark: #334155;
+    
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+body {
+    font-family: var(--font-mono);
+    height: 100vh;
+    background-color: var(--color-navy);
+    overflow: hidden;
+}
+
+/* Split Layout Container */
+.split-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* =========================================
+   Left Panel (Navy)
+   ========================================= */
+.panel-left {
+    flex: 1;
+    background-color: var(--color-navy);
+    color: var(--color-cream);
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Watermark */
+.watermark-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40rem;
+    color: rgba(255, 255, 255, 0.02);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Logo */
+.logo {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.logo svg {
+    font-size: 1.5rem;
+    color: var(--color-accent);
+}
+
+/* Content */
+.left-content {
+    max-width: 500px;
+}
+
+.distressed-headline {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    /* Subtle text shadow for distressed retro feel */
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+    letter-spacing: -1px;
+}
+
+.subtext {
+    font-size: 1.1rem;
+    color: var(--color-accent);
+    margin-bottom: 3rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+/* Feature List */
+.feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.feature-list li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.2rem;
+    color: var(--color-text-light);
+}
+
+.feature-list svg {
+    font-size: 1.5rem;
+    color: var(--color-cream);
+}
+
+/* Footer */
+.panel-footer {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    letter-spacing: 1px;
+}
+
+/* =========================================
+   Right Panel (Cream)
+   ========================================= */
+.panel-right {
+    flex: 1;
+    background-color: var(--color-cream);
+    color: var(--color-navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 420px;
+}
+
+.login-header {
+    margin-bottom: 3rem;
+}
+
+.login-header h2 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+.login-header p {
+    color: var(--color-text-dark);
+    font-size: 0.95rem;
+}
+
+/* Form Styles */
+.input-group {
+    margin-bottom: 2rem;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-navy);
+    letter-spacing: 0.5px;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--color-navy);
+    padding: 0.5rem 0;
+    position: relative;
+    transition: border-color 0.3s ease;
+}
+.input-wrapper:focus-within {
+    border-bottom-color: var(--color-accent);
+}
+
+.input-wrapper .icon {
+    font-size: 1.25rem;
+    color: var(--color-text-dark);
+    margin-right: 0.75rem;
+}
+
+.input-wrapper input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--color-navy);
+}
+
+.input-wrapper input::placeholder {
+    color: var(--color-text-light);
+}
+
+/* Toggle Password */
+.toggle-password {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-dark);
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.25rem;
+}
+.toggle-password:hover {
+    color: var(--color-navy);
+}
+
+/* Form Options */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    font-size: 0.85rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+.remember-me input {
+    accent-color: var(--color-navy);
+    width: 1rem;
+    height: 1rem;
+}
+
+.forgot-link {
+    color: var(--color-navy);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--color-navy);
+    transition: color 0.2s, border-color 0.2s;
+}
+.forgot-link:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+/* Primary Button */
+.btn-primary {
+    width: 100%;
+    background-color: var(--color-navy);
+    color: var(--color-cream);
+    border: none;
+    padding: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-bottom: 2.5rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-navy-light);
+}
+
+.btn-primary:active {
+    transform: translateY(2px);
+}
+
+/* Security Warning Footer */
+.security-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    background-color: var(--color-cream-dark);
+    border-left: 4px solid var(--color-navy);
+}
+
+.security-warning svg {
+    font-size: 1.25rem;
+    color: var(--color-navy);
+    margin-top: 0.1rem;
+}
+
+.security-warning p {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--color-text-dark);
+    font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .split-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .panel-left, .panel-right {
+        flex: none;
+        width: 100%;
+    }
+    
+    .panel-left {
+        padding: 3rem 2rem;
+    }
+    
+    .watermark-badge {
+        font-size: 20rem;
+    }
+    
+    .distressed-headline {
+        font-size: 2.5rem;
+    }
+}
