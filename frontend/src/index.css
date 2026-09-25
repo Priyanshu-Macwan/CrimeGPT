@@ -6,29 +6,30 @@
 }
 
 :root {
-    --color-navy: #0F172A;
-    --color-navy-light: #1E293B;
-    --color-cream: #F8F5EE;
-    --color-cream-dark: #E2DFD8;
-    --color-accent: #38BDF8;
-    --color-text-light: #94A3B8;
-    --color-text-dark: #334155;
+    --color-navy: #071525;
+    --color-navy-light: #16283d;
+    --color-cream: #fff9ea;
+    --color-cream-dark: #eee9d9;
+    --color-accent: #c5d0dc;
+    --color-text-light: #aab3bd;
+    --color-text-dark: #525d68;
     
     --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 }
 
 body {
     font-family: var(--font-mono);
-    height: 100vh;
+    min-height: 100vh;
     background-color: var(--color-navy);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* Split Layout Container */
 .split-container {
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    min-height: calc(100vh - 48px);
+    width: 100%;
 }
 
 /* =========================================
@@ -38,7 +39,7 @@ body {
     flex: 1;
     background-color: var(--color-navy);
     color: var(--color-cream);
-    padding: 4rem;
+    padding: clamp(2rem, 4vw, 4rem);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -79,10 +80,10 @@ body {
 }
 
 .distressed-headline {
-    font-size: 3.5rem;
+    font-size: clamp(2.45rem, 3.5vw, 3.5rem);
     font-weight: 800;
     line-height: 1.1;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     text-transform: uppercase;
     /* Subtle text shadow for distressed retro feel */
     text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
@@ -90,11 +91,12 @@ body {
 }
 
 .subtext {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: var(--color-accent);
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     letter-spacing: 1px;
     font-weight: 700;
+    line-height: 1.65;
 }
 
 /* Feature List */
@@ -109,8 +111,11 @@ body {
     display: flex;
     align-items: center;
     gap: 1rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: var(--color-text-light);
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.12);
+    padding: .9rem 1rem;
 }
 
 .feature-list svg {
@@ -135,7 +140,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: clamp(1.5rem, 4vw, 3.5rem);
 }
 
 .login-wrapper {
@@ -148,7 +153,7 @@ body {
 }
 
 .login-header h2 {
-    font-size: 2.25rem;
+    font-size: clamp(1.8rem, 2.8vw, 2.45rem);
     font-weight: 800;
     margin-bottom: 0.5rem;
     letter-spacing: -0.5px;
@@ -157,6 +162,7 @@ body {
 .login-header p {
     color: var(--color-text-dark);
     font-size: 0.95rem;
+    line-height: 1.6;
 }
 
 /* Form Styles */
@@ -303,11 +309,27 @@ body {
     font-weight: 700;
 }
 
+.site-footer {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px clamp(18px, 3vw, 40px);
+    background: var(--color-navy);
+    color: #d9e0e6;
+    border-top: 1px solid rgba(255,255,255,.2);
+    font-size: 10px;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+}
+
+.site-footer a { color: inherit; }
+
 /* Responsive */
 @media (max-width: 900px) {
     .split-container {
         flex-direction: column;
-        height: auto;
         min-height: 100vh;
     }
     
@@ -318,6 +340,7 @@ body {
     
     .panel-left {
         padding: 3rem 2rem;
+        min-height: 440px;
     }
     
     .watermark-badge {
@@ -327,4 +350,15 @@ body {
     .distressed-headline {
         font-size: 2.5rem;
     }
+    .panel-right { min-height: 640px; }
+}
+
+@media (max-width: 520px) {
+    .panel-left { min-height: 410px; padding: 1.5rem; }
+    .distressed-headline { font-size: 2rem; }
+    .feature-list { gap: .7rem; }
+    .feature-list li { font-size: .9rem; padding: .7rem; }
+    .panel-right { padding: 1.5rem; min-height: 600px; }
+    .form-options { gap: 12px; align-items: flex-start; }
+    .site-footer { align-items: flex-start; flex-direction: column; }
 }
