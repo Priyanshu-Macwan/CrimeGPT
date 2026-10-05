@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../useAuth';
 import {
   ShieldStar,
   Fingerprint,
@@ -16,15 +17,24 @@ import {
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [error, setError] = useState('');
+  const [officerId, setOfficerId] = useState('');
+  const [password, setPassword] = useState('');
+  const { login, loading } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setIsAuthenticating(true);
-    setTimeout(() => {
-      setIsAuthenticating(false);
+    setError('');
+    try {
+      await login(officerId, password);
       navigate('/dashboard');
-    }, 1000);
+    } catch (failure) {
+      setError(failure.message);
+    } finally {
+      setIsAuthenticating(false);
+    }
   };
 
   return (
@@ -41,7 +51,7 @@ export default function LoginPage() {
 
         <div className="left-content">
           <h1 className="distressed-headline">
-            AI-POWERED CRIME<br />
+            SECURE CRIME<br />
             DOCUMENTATION
           </h1>
           <p className="subtext">PRECISION, SPEED, AND SECURITY.</p>
@@ -63,7 +73,7 @@ export default function LoginPage() {
         </div>
 
         <footer className="panel-footer">
-          NEXUS AI SYSTEMS &bull; LAW ENFORCEMENT EDITION
+          CRIMEGPT &bull; LAW ENFORCEMENT WORKSPACE
         </footer>
       </section>
 
@@ -77,13 +87,16 @@ export default function LoginPage() {
 
           <form id="login-form" onSubmit={handleLogin}>
             <div className="input-group">
-              <label htmlFor="officer-id">OFFICER ID OR EMAIL</label>
+              <label htmlFor="officer-id">OFFICER ID</label>
               <div className="input-wrapper">
                 <IdentificationCard className="icon" weight="regular" />
                 <input
                   type="text"
                   id="officer-id"
-                  placeholder="Enter ID or Email"
+                  autoComplete="username"
+                  value={officerId}
+                  onChange={event => setOfficerId(event.target.value)}
+                  placeholder="Enter officer ID"
                   required
                 />
               </div>
@@ -96,6 +109,9 @@ export default function LoginPage() {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={event => setPassword(event.target.value)}
                   placeholder="Enter Password"
                   required
                 />
@@ -115,29 +131,24 @@ export default function LoginPage() {
             </div>
 
             <div className="form-options">
-              <label className="remember-me">
-                <input type="checkbox" />
-                <span className="checkmark"></span>
-                Remember this device
-              </label>
-              <a href="#" className="forgot-link">
-                Forgot Password?
-              </a>
+              <span>Sessions expire after eight hours.</span>
+              <span className="forgot-link">Contact your administrator for account recovery.</span>
             </div>
 
             <button
               type="submit"
               className="btn-primary"
               style={{ opacity: isAuthenticating ? 0.8 : 1 }}
-              disabled={isAuthenticating}
+              disabled={isAuthenticating || loading}
             >
               {isAuthenticating ? 'AUTHENTICATING...' : 'LOGIN TO CRIMEGPT'}
             </button>
           </form>
+          {error && <p role="alert" className="form-error">{error}</p>}
 
           <div className="security-warning">
             <Info weight="fill" />
-            <p>Authorized personnel only. All activity is logged and monitored.</p>
+            <p>Authorized personnel only. Case changes and draft approvals are logged.</p>
           </div>
         </div>
       </section>

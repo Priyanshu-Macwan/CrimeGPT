@@ -1,0 +1,273 @@
+/* New Case Screen Styles */
+.new-case-container {
+    display: flex;
+    height: 100vh;
+    background-color: var(--color-cream-light);
+    color: var(--color-navy);
+}
+
+.main-content.light-theme {
+    background-color: var(--color-cream-light);
+}
+
+/* Header */
+.new-case-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2.5rem;
+    border-bottom: 2px solid var(--color-olive-dark);
+}
+
+.search-bar.light {
+    border-color: var(--color-olive-dark);
+    color: var(--color-navy);
+}
+
+.user-profile.light {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: bold;
+    font-family: var(--font-ibm-plex);
+}
+.user-profile.light .mini-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-olive-dark);
+    color: var(--color-cream-light);
+    border-radius: 4px;
+    font-size: 1.2rem;
+}
+
+/* Body */
+.new-case-body {
+    padding: 2.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+    font-family: var(--font-ibm-plex);
+    padding-bottom: 120px; /* space for sticky action bar */
+}
+
+/* Page Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-family: var(--font-courier);
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-olive-dark);
+    margin-bottom: 0.5rem;
+}
+
+.page-subtext {
+    color: var(--color-text-dark);
+}
+
+.draft-timestamp {
+    border: 1px solid var(--color-olive-dark);
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    color: var(--color-olive-dark);
+}
+
+/* Stepper */
+.stepper {
+    display: flex;
+    gap: 0;
+    margin-bottom: 3rem;
+    border: 1px solid var(--color-olive-dark);
+}
+
+.step {
+    flex: 1;
+    padding: 1rem;
+    text-align: center;
+    font-weight: bold;
+    border-right: 1px solid var(--color-olive-dark);
+}
+.step:last-child {
+    border-right: none;
+}
+.step.active {
+    background-color: var(--color-olive-dark);
+    color: var(--color-cream-light);
+}
+
+/* Form Card */
+.form-card {
+    border: 2px solid var(--color-olive-dark);
+    padding: 2.5rem;
+}
+
+.form-section-title {
+    font-family: var(--font-courier);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--color-olive-dark);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.form-row {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 2rem;
+}
+.form-row.col-2 > .form-group {
+    flex: 1;
+}
+.form-group.full-width {
+    flex: 1;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+/* Flat Ledger Inputs */
+.ledger-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--color-olive-dark);
+    padding: 0.5rem 0;
+    font-family: var(--font-ibm-plex);
+    font-size: 1.1rem;
+    color: var(--color-navy);
+    outline: none;
+    border-radius: 0;
+}
+.ledger-input:focus {
+    border-bottom-color: var(--color-accent);
+}
+
+select.ledger-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23416840%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem top 50%;
+    background-size: 0.65rem auto;
+}
+
+.ledger-input.readonly {
+    background-color: rgba(65, 104, 64, 0.05); /* very light olive */
+    border-bottom: 2px dashed var(--color-olive-dark);
+    color: var(--color-olive-dark);
+    font-weight: 500;
+}
+
+.input-with-icon {
+    position: relative;
+}
+.input-with-icon .input-icon {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    color: var(--color-olive-dark);
+    font-size: 1.2rem;
+}
+
+/* Priority Classification */
+.priority-classification {
+    border: 2px solid var(--color-olive-dark);
+    padding: 1.5rem;
+    margin-top: 3rem;
+}
+
+.priority-label {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.radio-group {
+    display: flex;
+    gap: 2rem;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+.radio-option.critical {
+    color: #ef4444; /* red */
+}
+.radio-option input[type="radio"] {
+    accent-color: var(--color-olive-dark);
+    width: 18px;
+    height: 18px;
+}
+.radio-option.critical input[type="radio"] {
+    accent-color: #ef4444;
+}
+
+/* Sticky Action Bar */
+.sticky-action-bar {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: calc(100% - 280px); /* Adjust for expanded sidebar */
+    background-color: var(--color-cream-light);
+    border-top: 2px solid var(--color-olive-dark);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    z-index: 10;
+    transition: width 0.3s ease;
+}
+
+/* Handle collapsed sidebar */
+.sidebar.collapsed ~ .main-content .sticky-action-bar {
+    width: calc(100% - 80px);
+}
+
+.btn-draft {
+    background: transparent;
+    border: 2px solid var(--color-olive-dark);
+    color: var(--color-olive-dark);
+    padding: 1rem 2rem;
+    font-family: var(--font-ibm-plex);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-draft:hover {
+    background-color: var(--color-olive-dark);
+    color: var(--color-cream-light);
+}
+
+.btn-primary {
+    background-color: var(--color-olive-dark);
+    border: 2px solid var(--color-olive-dark);
+    color: var(--color-cream-light);
+    padding: 1rem 2rem;
+    font-family: var(--font-ibm-plex);
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+.btn-primary:hover {
+    background-color: var(--color-navy);
+    border-color: var(--color-navy);
+}

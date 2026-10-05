@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
-import DashboardLayout from './components/dashboard/DashboardLayout';
-import MyCases from './components/cases/MyCases';
-import CaseDetails from './components/cases/CaseDetails';
-import NewCase from './components/filing/NewCase';
-import FIRFilingPage from './components/filing/FIRFilingPage';
-import EvidencePage from './components/evidence/EvidencePage';
-import ReportsPage from './components/reports/ReportsPage';
-import AdminPage from './components/reports/AdminPage';
-import './components/workspace.css';
+import { AuthProvider, RequireAuth } from './Auth';
+
+const DashboardLayout = lazy(() => import('./components/dashboard/DashboardLayout'));
+const MyCases = lazy(() => import('./components/cases/MyCases'));
+const CaseDetails = lazy(() => import('./components/cases/CaseDetails'));
+const NewCase = lazy(() => import('./components/filing/NewCase'));
+const FIRFilingPage = lazy(() => import('./components/filing/FIRFilingPage'));
+const EvidencePage = lazy(() => import('./components/evidence/EvidencePage'));
+const ReportsPage = lazy(() => import('./components/reports/ReportsPage'));
+const AdminPage = lazy(() => import('./components/reports/AdminPage'));
 
 function App() {
-  return <BrowserRouter><div className="App"><Routes>
+  return <BrowserRouter><AuthProvider><div className="App"><Suspense fallback={<div className="work-body">Loading workspace…</div>}><Routes>
     <Route path="/" element={<LoginPage />} />
+    <Route element={<RequireAuth />}>
     <Route path="/dashboard" element={<DashboardLayout />} />
     <Route path="/cases" element={<MyCases />} />
     <Route path="/cases/:caseId" element={<CaseDetails />} />
@@ -21,8 +23,9 @@ function App() {
     <Route path="/filing" element={<FIRFilingPage />} />
     <Route path="/evidence" element={<EvidencePage />} />
     <Route path="/reports" element={<ReportsPage />} />
-    <Route path="/admin" element={<AdminPage />} />
+    </Route>
+    <Route element={<RequireAuth role="admin" />}><Route path="/admin" element={<AdminPage />} /></Route>
     <Route path="*" element={<Navigate to="/dashboard" replace />} />
-  </Routes></div></BrowserRouter>;
+  </Routes></Suspense></div></AuthProvider></BrowserRouter>;
 }
 export default App;
