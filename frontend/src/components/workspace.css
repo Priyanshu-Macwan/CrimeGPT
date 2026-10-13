@@ -90,3 +90,16 @@ body{height:auto;min-height:100vh;overflow:auto;background:var(--paper);color:va
   .evidence-row,.person-row{align-items:flex-start;flex-wrap:wrap}
   .modal{padding:18px}
 }
+
+/* Keep page headers aligned when some routes need a vertical scrollbar. */
+html{scrollbar-gutter:stable}
+.work-top{flex:0 0 auto;min-height:72px;box-sizing:border-box}
+.work-top>strong{flex:0 0 auto}
+.top-links{flex:0 0 auto}
+.top-links a:not(.btn){transition:color .15s ease}
+.top-links a:not(.btn):hover{color:var(--green);text-decoration:underline;text-underline-offset:4px}
+.work-nav a{box-sizing:border-box;min-height:54px}
+@media(min-width:701px){.work-nav a.active,.work-nav a:hover{padding-left:18px}}
+.work-nav a:focus-visible,.top-links a:focus-visible{outline:2px solid #2670a8;outline-offset:-2px}
+.btn:hover{transform:none;box-shadow:2px 2px 0 var(--navy)}
+@media(max-width:700px){.work-top{min-height:0}}

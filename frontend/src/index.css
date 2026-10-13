@@ -362,3 +362,8 @@ body {
     .form-options { gap: 12px; align-items: flex-start; }
     .site-footer { align-items: flex-start; flex-direction: column; }
 }
+
+/* Keep drag selection inside the login controls instead of selecting page copy. */
+.split-container{user-select:none;-webkit-user-select:none}
+.split-container input,.split-container textarea{user-select:text;-webkit-user-select:text}
+.split-container button{user-select:none;-webkit-user-select:none}
