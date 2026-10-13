@@ -1,23 +1,17 @@
 import React from 'react';
 
-const mockLogs = [
-  { time: '10:42 AM', action: 'Reviewed FIR Draft: Cyber Fraud' },
-  { time: '09:15 AM', action: 'Updated status for Case CR-2026-885 to SOLVED' },
-  { time: '08:30 AM', action: 'Logged into secure network' },
-  { time: 'Yesterday', action: 'Generated evidence summary for CR-2026-891' },
-];
-
-export default function ActivityTimeline() {
+export default function ActivityTimeline({ activity = [] }) {
   return (
     <div>
       <h3 className="panel-title">Recent Activity</h3>
       <div className="timeline-log">
-        {mockLogs.map((log, idx) => (
-          <div className="timeline-item" key={idx}>
-            <div className="timeline-time">{log.time}</div>
-            <div className="timeline-content">{log.action}</div>
+        {activity.slice(0, 10).map((log) => (
+          <div className="timeline-item" key={log.id}>
+            <div className="timeline-time">{new Date(log.at).toLocaleString()}</div>
+            <div className="timeline-content">{log.actor} · {log.action.replaceAll('_', ' ')} · {log.target}</div>
           </div>
         ))}
+        {!activity.length && <p className="empty">No activity has been recorded yet.</p>}
       </div>
     </div>
   );

@@ -1,13 +1,11 @@
 {
-  "name": "backend",
+  "name": "crimegpt-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+    "start": "node src/index.js",
+    "fir:start": "python -m uvicorn fir_service.main:app --host 127.0.0.1 --port 8001",
+    "test": "node --test"
+  }
 }

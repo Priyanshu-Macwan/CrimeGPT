@@ -2,14 +2,7 @@ import React from 'react';
 import { Eye } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 
-const mockCases = [
-  { id: 'CR-2026-892', type: 'Cyber Fraud', date: 'Oct 24, 2026', status: 'open' },
-  { id: 'CR-2026-891', type: 'Theft', date: 'Oct 23, 2026', status: 'pending' },
-  { id: 'CR-2026-889', type: 'Assault', date: 'Oct 21, 2026', status: 'solved' },
-  { id: 'CR-2026-885', type: 'Extortion', date: 'Oct 19, 2026', status: 'solved' },
-];
-
-export default function RecentCasesTable() {
+export default function RecentCasesTable({ cases = [], loading = false }) {
   const navigate = useNavigate();
   return (
     <div className="data-table-container">
@@ -25,23 +18,24 @@ export default function RecentCasesTable() {
           </tr>
         </thead>
         <tbody>
-          {mockCases.map((c) => (
+          {cases.slice(0, 5).map((c) => (
             <tr key={c.id}>
               <td>{c.id}</td>
-              <td>{c.type}</td>
-              <td>{c.date}</td>
+              <td>{c.type === 'Other' ? c.otherCrimeType : c.type}</td>
+              <td>{new Date(`${c.date}T12:00:00`).toLocaleDateString()}</td>
               <td>
-                <span className={`status-tag ${c.status}`}>
+                <span className={`status-tag ${c.status === 'Solved' ? 'solved' : c.status === 'Open' ? 'open' : 'pending'}`}>
                   {c.status.toUpperCase()}
                 </span>
               </td>
               <td>
-                <button className="action-btn" onClick={() => navigate('/cases')} aria-label={`Open ${c.id}`}>
+                <button className="action-btn" onClick={() => navigate(`/cases/${c.id}`)} aria-label={`Open ${c.id}`}>
                   <Eye weight="regular" />
                 </button>
               </td>
             </tr>
           ))}
+          {!cases.length && <tr><td colSpan="5">{loading ? 'Loading cases…' : 'No case records yet.'}</td></tr>}
         </tbody>
       </table>
     </div>

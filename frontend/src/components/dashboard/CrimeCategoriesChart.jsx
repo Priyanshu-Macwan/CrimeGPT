@@ -1,16 +1,16 @@
 import React from 'react';
 
-export default function CrimeCategoriesChart() {
+export default function CrimeCategoriesChart({ cases = [] }) {
+  const categories = [...new Set(cases.map(item => item.type === 'Other' ? item.otherCrimeType : item.type))]
+    .map(label => ({ label, count: cases.filter(item => (item.type === 'Other' ? item.otherCrimeType : item.type) === label).length }))
+    .sort((a, b) => b.count - a.count).slice(0, 5);
+  const max = Math.max(...categories.map(item => item.count), 1);
   return (
     <div>
       <h3 className="panel-title">Crime Categories Breakdown</h3>
       <div className="chart-placeholder">
-        {/* Geometric chart representation (CSS only for now) */}
-        <div className="chart-bar" style={{ height: '70%' }} data-label="Theft"></div>
-        <div className="chart-bar" style={{ height: '45%' }} data-label="Fraud"></div>
-        <div className="chart-bar" style={{ height: '85%' }} data-label="Cyber"></div>
-        <div className="chart-bar" style={{ height: '30%' }} data-label="Assault"></div>
-        <div className="chart-bar" style={{ height: '60%' }} data-label="Narcotics"></div>
+        {categories.map(item => <div className="chart-bar" key={item.label} style={{ height: `${Math.max(18, item.count / max * 85)}%` }} data-label={`${item.label} (${item.count})`} />)}
+        {!categories.length && <p className="empty">Crime categories will appear as cases are registered.</p>}
       </div>
     </div>
   );

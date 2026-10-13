@@ -465,3 +465,25 @@
   .data-table-container{overflow:auto}
   .data-table{min-width:560px}
 }
+
+/* Subtle header controls with an actionable notification menu. */
+.header-logo-badge{border-color:#d0ccbf;padding:.4rem .55rem;font-size:.74rem;color:#59616a}
+.header-logo-badge svg{opacity:.72}
+.notification-wrap{position:relative;display:flex;align-items:center}
+.notification-btn{display:grid;place-items:center;width:40px;height:40px;border:1px solid transparent;border-radius:50%;transition:background .15s,border-color .15s}
+.notification-btn:hover,.notification-btn:focus-visible{background:#f2eedf;border-color:#d0ccbf;outline:none}
+.notification-menu{position:absolute;z-index:30;right:0;top:calc(100% + 12px);width:min(340px,calc(100vw - 32px));padding:.8rem;background:#fffdf5;border:1px solid var(--color-navy);box-shadow:4px 4px 0 #07152522}
+.notification-menu-title{display:flex;justify-content:space-between;align-items:center;padding:.35rem .35rem .65rem;border-bottom:1px solid #d0ccbf;font:600 .78rem 'IBM Plex Mono',monospace}
+.notification-menu-title span{color:var(--muted);font-size:.7rem}
+.notification-menu>a{display:flex;gap:.6rem;align-items:flex-start;padding:.75rem .35rem;border-bottom:1px solid #e2dfd5;color:var(--color-navy);text-decoration:none;font:.74rem 'IBM Plex Mono',monospace}
+.notification-menu>a:hover{background:#f2eedf}
+.notification-menu>a svg{flex:0 0 auto;margin-top:2px}
+.notification-menu>a small{display:block;margin-top:.25rem;color:#59616a;font:.72rem/1.45 'IBM Plex Sans',sans-serif}
+.notification-menu>p{margin:.8rem .35rem;color:#59616a;font:.8rem 'IBM Plex Sans',sans-serif}
+.notification-menu>a.notification-all{justify-content:center;border:0;padding-bottom:.4rem;font-weight:700}
+.filing-form textarea#complaint-statement{box-sizing:border-box;height:220px;min-height:220px;max-height:220px;resize:none;overflow-y:auto;line-height:1.55}
+
+/* Shared sidebar additions used on every workspace page. */
+.dashboard-sidebar-alert{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 16px 12px;padding:13px 10px;border:1px solid var(--navy);background:transparent;color:var(--navy);font:600 11px 'IBM Plex Mono',monospace;text-transform:uppercase;cursor:pointer}
+.dashboard-sidebar-alert:hover{background:#f5e3dc;color:#8d2525}
+@media(max-width:700px){.dashboard-sidebar-alert{flex:0 0 auto;margin:8px;padding:9px 12px}}

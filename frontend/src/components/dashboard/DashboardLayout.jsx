@@ -9,34 +9,44 @@ import RecentCasesTable from './RecentCasesTable';
 import AIDraftsPanel from './AIDraftsPanel';
 import CrimeCategoriesChart from './CrimeCategoriesChart';
 import ActivityTimeline from './ActivityTimeline';
+import { useRemoteData } from '../../useRemoteData';
 
 export default function DashboardLayout() {
+  const { data: caseData, loading: casesLoading, error: casesError } = useRemoteData('/cases', 'cases');
+  const { data: draftData, loading: draftsLoading, error: draftsError } = useRemoteData('/drafts', 'drafts');
+  const { data: activityData } = useRemoteData('/activity', 'activity');
+  const cases = caseData || [];
+  const drafts = draftData || [];
+  const pendingDrafts = drafts.filter(draft => draft.status === 'pending_review');
+  const openCases = cases.filter(item => item.status === 'Open' || item.status === 'Investigating').length;
+  const solvedCases = cases.filter(item => item.status === 'Solved').length;
   return (
     <div className="dashboard-container">
-      <Sidebar />
+      <Sidebar showEmergency />
       
       <main className="main-content">
         <Header />
         
         <div className="dashboard-body">
+          {(casesError || draftsError) && <div className="form-error" role="alert">Dashboard data could not be fully loaded: {casesError || draftsError}</div>}
           {/* KPI Cards */}
           <div className="kpi-row">
-            <StatCard title="Total Cases" value="1,248" icon={Briefcase} />
-            <StatCard title="Open Cases" value="342" icon={FileText} />
-            <StatCard title="Solved Cases" value="891" icon={CheckCircle} />
-            <StatCard title="AI Drafts Pending" value="14" icon={Robot} />
+            <StatCard title="Total Cases" value={casesLoading ? '…' : cases.length} icon={Briefcase} />
+            <StatCard title="Open Cases" value={casesLoading ? '…' : openCases} icon={FileText} />
+            <StatCard title="Solved Cases" value={casesLoading ? '…' : solvedCases} icon={CheckCircle} />
+            <StatCard title="AI Drafts Pending" value={draftsLoading ? '…' : pendingDrafts.length} icon={Robot} />
           </div>
 
           {/* Middle Section */}
           <div className="content-split">
-            <RecentCasesTable />
-            <AIDraftsPanel />
+            <RecentCasesTable cases={cases} loading={casesLoading} />
+            <AIDraftsPanel drafts={pendingDrafts} loading={draftsLoading} />
           </div>
 
           {/* Bottom Section */}
           <div className="bottom-split">
-            <CrimeCategoriesChart />
-            <ActivityTimeline />
+            <CrimeCategoriesChart cases={cases} />
+            <ActivityTimeline activity={activityData || []} />
           </div>
         </div>
       </main>

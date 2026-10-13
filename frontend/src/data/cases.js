@@ -6,5 +6,4 @@ export const initialCases = [
   { id:'CG-2024-005', title:'Online payment fraud complaint', type:'Fraud', date:'2024-10-18', location:'Digital / Sector 4', precinct:'7B', officer:'Sana Desai', status:'Review', priority:'High', description:'Complainant reported an unauthorized online transfer after receiving a suspicious payment link.', victim:'Nisha Mehta', suspect:'Unknown', evidence:4, fir:'FIR-2024-1072' },
 ];
 
-export function readCases() { try { const saved=JSON.parse(localStorage.getItem('crimegpt-cases')); return Array.isArray(saved)&&saved.length?saved:initialCases; } catch { return initialCases; } }
-export function saveCases(cases) { localStorage.setItem('crimegpt-cases', JSON.stringify(cases)); }
+// Sample case records for reference only. Pages read and write through the authenticated API.

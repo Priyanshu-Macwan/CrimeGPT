@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, CheckCircle, Trash } from '@phosphor-icons/react';
 import WorkspaceShell from '../WorkspaceShell';
-import { readCases, saveCases } from '../../data/cases';
+import { request, uploadEvidence } from '../../api';
 
 const steps = ['Incident', 'Victim', 'Suspect', 'Evidence', 'Review'];
 const blank = {
-  title: '', type: 'Theft', date: new Date().toISOString().slice(0, 10), location: '', precinct: '7B',
+  title: '', type: 'Theft', otherCrimeType: '', date: new Date().toISOString().slice(0, 10), location: '', precinct: '7B',
   description: '', victim: '', contact: '', notes: '', suspect: '', suspectStatus: 'Unknown', suspectDescription: '',
 };
 
@@ -15,27 +15,33 @@ export default function NewCase() {
   const [form, setForm] = useState(blank);
   const [files, setFiles] = useState([]);
   const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [createdCaseId, setCreatedCaseId] = useState('');
   const navigate = useNavigate();
   const update = (key, value) => setForm(current => ({ ...current, [key]: value }));
 
   const canContinue = step === 0
-    ? Boolean(form.title.trim() && form.location.trim() && form.description.trim())
+    ? Boolean(form.title.trim() && form.location.trim() && form.description.trim() && (form.type !== 'Other' || form.otherCrimeType.trim()))
     : step === 1 ? Boolean(form.victim.trim()) : true;
 
   function next() {
     if (!canContinue) {
-      setError(step === 0 ? 'Add an incident title, location and description to continue.' : 'Add the complainant name to continue.');
+      setError(step === 0
+        ? (form.type === 'Other' && !form.otherCrimeType.trim() ? 'Describe the reported crime type to continue.' : 'Add an incident title, location and description to continue.')
+        : 'Add the complainant name to continue.');
       return;
     }
     setError('');
     setStep(current => Math.min(current + 1, steps.length - 1));
   }
 
-  function createCase(event) {
+  async function createCase(event) {
     event.preventDefault();
-    if (!form.title.trim() || !form.location.trim() || !form.description.trim()) {
+    if (!form.title.trim() || !form.location.trim() || !form.description.trim() || (form.type === 'Other' && !form.otherCrimeType.trim())) {
       setStep(0);
-      setError('Complete the incident title, location and description before creating the case.');
+      setError(form.type === 'Other' && !form.otherCrimeType.trim()
+        ? 'Describe the reported crime type before creating the case.'
+        : 'Complete the incident title, location and description before creating the case.');
       return;
     }
     if (!form.victim.trim()) {
@@ -43,25 +49,27 @@ export default function NewCase() {
       setError('Add the victim or complainant name before creating the case.');
       return;
     }
-    const currentCases = readCases();
-    const year = new Date().getFullYear();
-    let sequence = currentCases.length + 1;
-    let id = `CG-${year}-${String(sequence).padStart(3, '0')}`;
-    while (currentCases.some(item => item.id === id)) {
-      sequence += 1;
-      id = `CG-${year}-${String(sequence).padStart(3, '0')}`;
+    setSaving(true);
+    setError('');
+    let pendingCaseId = createdCaseId;
+    try {
+      if (!pendingCaseId) {
+        const { case: created } = await request('/cases', { method: 'POST', body: form });
+        pendingCaseId = created.id;
+        setCreatedCaseId(pendingCaseId);
+      }
+      for (const file of files.filter(item => !item.uploaded)) {
+        await uploadEvidence(pendingCaseId, file.file);
+        setFiles(current => current.map(item => item.id === file.id ? { ...item, uploaded: true } : item));
+      }
+      navigate(`/cases/${pendingCaseId}`);
+    } catch (saveError) {
+      setError(pendingCaseId
+        ? `Case ${pendingCaseId} was saved, but some evidence could not be uploaded: ${saveError.message}. Retry to upload the remaining files.`
+        : `${saveError.message}. Your information is still on this form; try again when the API is available.`);
+    } finally {
+      setSaving(false);
     }
-    const record = {
-      ...form,
-      id,
-      status: 'Open',
-      priority: 'Normal',
-      officer: 'Priyanshu Macwan',
-      evidence: files.length,
-      fir: `FIR-${year}-${1080 + sequence}`,
-    };
-    saveCases([record, ...currentCases]);
-    navigate(`/cases/${id}`);
   }
 
   function addFiles(event) {
@@ -70,6 +78,8 @@ export default function NewCase() {
       name: file.name,
       size: file.size,
       type: file.type,
+      file,
+      uploaded: false,
     }));
     setFiles(current => [...current, ...added]);
     event.target.value = '';
@@ -92,6 +102,7 @@ export default function NewCase() {
               {step === 0 && <div className="form-grid">
                 <Field label="Incident title *"><input className="field" required value={form.title} onChange={event => update('title', event.target.value)} placeholder="e.g. Theft at Central Market" /></Field>
                 <Field label="Crime type"><select className="select" value={form.type} onChange={event => update('type', event.target.value)}>{['Theft', 'Robbery', 'Burglary', 'Fraud', 'Assault', 'Lost property', 'Other'].map(type => <option key={type}>{type}</option>)}</select></Field>
+                {form.type === 'Other' && <Field label="Crime type details *"><input className="field" required value={form.otherCrimeType} onChange={event => update('otherCrimeType', event.target.value)} placeholder="Describe the reported offence" /></Field>}
                 <Field label="Date of incident"><input type="date" className="field" value={form.date} onChange={event => update('date', event.target.value)} /></Field>
                 <Field label="Location *"><input className="field" required value={form.location} onChange={event => update('location', event.target.value)} placeholder="Street, area or landmark" /></Field>
                 <Field label="Precinct / unit"><input className="field" value={form.precinct} onChange={event => update('precinct', event.target.value)} /></Field>
@@ -109,7 +120,7 @@ export default function NewCase() {
               </div>}
               {step === 3 && <div>
                 <label className="dropzone" style={{ display: 'block' }}>
-                  <b>＋ Attach evidence files</b><p className="muted">Choose images, audio, video or documents. Files stay in this browser demo.</p>
+                  <b>＋ Attach evidence files</b><p className="muted">Choose images, audio, video or documents. They upload to the backend when you save the case.</p>
                   <input type="file" multiple hidden onChange={addFiles} />
                 </label>
                 {files.map(file => <div className="evidence-row" key={file.id}><div><b>{file.name}</b><div className="small muted">{(file.size / 1024).toFixed(1)} KB</div></div><button type="button" className="btn danger" onClick={() => setFiles(current => current.filter(item => item.id !== file.id))}><Trash/> Remove</button></div>)}
@@ -124,7 +135,7 @@ export default function NewCase() {
                 <button type="button" className="btn" disabled={step === 0} onClick={() => { setError(''); setStep(current => Math.max(0, current - 1)); }}><ArrowLeft/> Back</button>
                 {step < steps.length - 1
                   ? <button type="button" className="btn primary" onClick={next}>Continue <ArrowRight/></button>
-                  : <button type="submit" className="btn primary"><CheckCircle/> Create case file</button>}
+                  : <button type="submit" className="btn primary" disabled={saving}><CheckCircle/> {saving ? 'Saving case…' : 'Create case file'}</button>}
               </div>
             </div>
           </section>

@@ -1,25 +1,13 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Robot, SquaresFour, FolderOpen, FilePlus, Sparkle, Images, Files, ShieldCheck } from '@phosphor-icons/react';
-
-const items = [
-  ['/dashboard', 'Dashboard', SquaresFour], ['/cases', 'My Cases', FolderOpen],
-  ['/new-case', 'New Case', FilePlus], ['/filing', 'AI FIR Generator', Sparkle],
-  ['/evidence', 'Evidence', Images], ['/reports', 'Reports', Files], ['/admin', 'Admin overview', ShieldCheck],
-];
+import { NavLink } from 'react-router-dom';
+import Sidebar from './dashboard/Sidebar';
+import { useAuth } from '../authContext';
 
 export default function WorkspaceShell({ children, title = 'CASE MANAGEMENT' }) {
-  const navigate = useNavigate();
+  const { user } = useAuth();
   return (
     <div className="workspace">
-      <aside className="work-sidebar">
-        <div className="work-brand"><Robot size={22} /> CRIMEGPT</div>
-        <div className="work-unit">UNIT 7B · CENTRAL PRECINCT</div>
-        <nav className="work-nav">
-          {items.map(([to, label, Icon]) => <NavLink key={to} to={to} className={({ isActive }) => isActive ? 'active' : ''}><Icon /> {label}</NavLink>)}
-        </nav>
-        <button className="work-logout" onClick={() => navigate('/')}>↪ &nbsp; SIGN OUT</button>
-      </aside>
+      <Sidebar />
       <main className="work-main">
         <header className="work-top">
           <strong>CRIMEGPT&nbsp; / &nbsp;{title}</strong>
@@ -29,7 +17,7 @@ export default function WorkspaceShell({ children, title = 'CASE MANAGEMENT' }) 
           </div>
         </header>
         {children}
-        <footer className="site-footer"><span>CrimeGPT · Law enforcement edition</span><span>Officer workspace · Unit 7B</span></footer>
+        <footer className="site-footer"><span>CrimeGPT · Law enforcement edition</span><span>{user?.id || 'Officer workspace'} · {user?.role || 'Officer'}</span></footer>
       </main>
     </div>
   );

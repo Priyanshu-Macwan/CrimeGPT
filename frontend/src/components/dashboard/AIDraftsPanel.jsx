@@ -1,26 +1,22 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const mockDrafts = [
-  { title: 'FIR Draft: Cyber Fraud', time: 'Generated 10m ago' },
-  { title: 'Statement Summary: CR-889', time: 'Generated 1h ago' },
-];
-
-export default function AIDraftsPanel() {
+export default function AIDraftsPanel({ drafts = [], loading = false }) {
   const navigate = useNavigate();
   return (
     <div className="ai-drafts-panel">
       <h3 className="panel-title">AI Drafts Awaiting Review</h3>
       
-      {mockDrafts.map((draft, idx) => (
-        <div className="draft-card" key={idx}>
+      {drafts.map((draft) => (
+        <div className="draft-card" key={draft.id}>
           <div className="draft-header">
-            <span className="draft-title">{draft.title}</span>
-            <span className="draft-time">{draft.time}</span>
+            <span className="draft-title">FIR Draft · {draft.caseId}</span>
+            <span className="draft-time">{new Date(draft.createdAt).toLocaleDateString()}</span>
           </div>
-          <button className="btn-review" onClick={() => navigate('/filing')}>REVIEW NOW</button>
+          <button className="btn-review" onClick={() => navigate(`/filing?case=${encodeURIComponent(draft.caseId)}&draft=${encodeURIComponent(draft.id)}`)}>REVIEW NOW</button>
         </div>
       ))}
+      {!drafts.length && <p className="empty">{loading ? 'Loading drafts…' : 'No drafts are awaiting review.'}</p>}
     </div>
   );
 }
