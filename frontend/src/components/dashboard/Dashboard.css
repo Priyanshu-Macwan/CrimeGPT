@@ -487,3 +487,17 @@
 .dashboard-sidebar-alert{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 16px 12px;padding:13px 10px;border:1px solid var(--navy);background:transparent;color:var(--navy);font:600 11px 'IBM Plex Mono',monospace;text-transform:uppercase;cursor:pointer}
 .dashboard-sidebar-alert:hover{background:#f5e3dc;color:#8d2525}
 @media(max-width:700px){.dashboard-sidebar-alert{flex:0 0 auto;margin:8px;padding:9px 12px}}
+
+/* The dashboard uses the same shared navigation shell at phone widths. */
+.main-content{min-width:0}
+@media(max-width:720px){
+  .dashboard-container{display:flex;flex-direction:column;height:auto;min-height:100vh}
+  .dashboard-container .work-sidebar{width:100%;flex:0 0 auto;border-right:0;border-bottom:1px solid var(--navy)}
+  .dashboard-container .work-brand{padding:14px 18px}
+  .dashboard-container .work-unit,.dashboard-container .work-logout{display:none}
+  .dashboard-container .work-nav{display:flex;flex:0 0 auto;overflow-x:auto;padding:0;scrollbar-width:thin}
+  .dashboard-container .work-nav a{flex:0 0 auto;min-height:48px;white-space:nowrap;padding:12px 14px;font-size:10px}
+  .dashboard-container .work-nav a.active,.dashboard-container .work-nav a:hover{padding:12px 14px;border-left:0;border-bottom:3px solid var(--navy)}
+  .dashboard-sidebar-alert{width:auto;align-self:flex-start;margin:8px}
+  .dashboard-container .main-content{width:100%;height:auto;min-height:0;overflow:visible}
+}

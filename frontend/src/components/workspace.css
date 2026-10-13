@@ -103,3 +103,10 @@ html{scrollbar-gutter:stable}
 .work-nav a:focus-visible,.top-links a:focus-visible{outline:2px solid #2670a8;outline-offset:-2px}
 .btn:hover{transform:none;box-shadow:2px 2px 0 var(--navy)}
 @media(max-width:700px){.work-top{min-height:0}}
+
+/* Keep the title and utility links from colliding at tablet widths. */
+@media(max-width:1100px){
+  .work-top{height:auto;min-height:72px;flex-wrap:wrap;justify-content:flex-start;padding-block:12px;row-gap:10px}
+  .work-top>strong{flex:1 1 100%}
+  .top-links{flex:1 1 100%;width:100%;justify-content:flex-start;flex-wrap:nowrap}
+}
